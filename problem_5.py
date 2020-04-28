@@ -17,18 +17,19 @@ class TrieNode:
         suffixes = [] # return list of suffixes
         # print(suffixes)
         # recursive suffix creation code to return list
-        def suffix_rec(current_node, suffix=''): 
-            for char in current_node.children:
-                # print(suffix)
-                suffix = suffix + char
+        def suffix_rec(current_node, c, suffix=''):
+            for (idx,char) in enumerate(current_node.children): 
+                if idx > 0 :
+                    suffix=suffix+c
+                suffix=suffix+char
                 if current_node.children[char].is_word:
                     suffixes.append(suffix)
                     if len(current_node.children[char].children) > 0:
-                        suffix_rec(current_node.children[char],suffix)
+                        suffix_rec(current_node.children[char],char, suffix)
                 else:
-                    suffix_rec(current_node.children[char],suffix)
-                    suffix='' # on going out erase the suffix
-        suffix_rec(self,'') 
+                    suffix_rec(current_node.children[char],char, suffix)
+                suffix='' # on going out erase the suffix
+        suffix_rec(self,'','') 
         return suffixes
 
 
@@ -81,6 +82,7 @@ for word in wordList:
     MyTrie.insert(word)
 
 f('a')
-# print(f(prefix='ant'))
-# print(f(prefix='tri'))
-# print(f(prefix='fu'))
+f(prefix='an')
+f(prefix='tri')
+f(prefix='f')
+f(prefix='fu')

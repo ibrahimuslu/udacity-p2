@@ -8,18 +8,26 @@ def rotated_array_search(input_list, number):
     Returns:
        int: Index or -1
     """
-    def findPivot(input_list, number):
-        for idx,i in enumerate(input_list):
-            if i< input_list[idx-1]:
-                return idx, None
-            if number == i: # faster finding 
-                return idx, idx
-    pivot,found = findPivot(input_list, number)
-    if found:
-        return found
+    def findPivot(input_list,start,end):
+        if start == end:
+            return start
+        if (end - start) == 1:
+            return end
+        if (start - end) == 1:
+            return start
+        mid = (start+ end)//2
+        if input_list[mid] > input_list[end]:
+            return findPivot(input_list,mid,end)
+        elif input_list[mid] < input_list[end]: 
+            return findPivot(input_list,start,mid)
+        else:
+            return mid
+    pivot = findPivot(input_list,0,len(input_list)-1)
     size = len(input_list)
-    def findNumber(input_list, number, pivot,start, end):
-        print(input_list, number, pivot,start, end)
+    # print(input_list[pivot])
+    def findNumber(input_list, number, pivot, start, end):
+
+        # print(input_list, number, pivot,start, end)
         if number == input_list[pivot]:
             return pivot
         elif number >= input_list[pivot] and number <= input_list[end]:
@@ -41,7 +49,7 @@ def test_function(test_case):
     number = test_case[1]
     a=linear_search(input_list, number)
     b=rotated_array_search(input_list, number)
-    print(a, b)
+    # print(a, b)
     if (a == b):
         print("Pass")
     else:
